@@ -32,8 +32,9 @@ public class KyuConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**") .permitAll()
+                    .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/**") .permitAll()
                     .anyRequest().permitAll().and()
                 .formLogin()
                     .loginPage("/user/login")

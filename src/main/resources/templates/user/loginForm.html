@@ -17,9 +17,6 @@
             <span th:text="${message}"></span>
             <input name="username" type="email" class="form-control" placeholder="User Email" autofocus="true"/>
             <input name="password" type="password" class="form-control" placeholder="Password">
-
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
             <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-bottom:10px">로그인</button><br>
             <span>아직 회원이 아니라면 </span><button class="btn btn-outline-success" type="button" th:onclick="'location.href=\'/user/signup\';'">Create an account</button>
         </div>
