@@ -2,7 +2,6 @@ package org.prgrms.kyu.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.kyu.dto.JoinRequest;
-import org.prgrms.kyu.dto.UserInfo;
 import org.prgrms.kyu.service.SecurityService;
 import org.prgrms.kyu.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -22,11 +21,8 @@ public class UserController {
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            final UserInfo userInfo = userService.getUser(userDetails.getUsername());
-            model.addAttribute("userInfo", userInfo);
-        }
+        if (securityService.isAuthenticated()) model.addAttribute("userInfo",
+                userService.getUser(((UserDetails) authentication.getPrincipal()).getUsername()));
         return "/index";
     }
 
