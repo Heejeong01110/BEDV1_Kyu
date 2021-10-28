@@ -1,38 +1,46 @@
 package org.prgrms.kyu.controller.api;
 
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javax.naming.AuthenticationException;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.prgrms.kyu.dto.JoinRequest;
 import org.prgrms.kyu.dto.StoreCreateRequest;
-import org.prgrms.kyu.entity.User;
+import org.prgrms.kyu.dto.StoreFindResponse;
 import org.prgrms.kyu.repository.UserRepository;
 import org.prgrms.kyu.service.StoreService;
 import org.prgrms.kyu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
-@AutoConfigureMockMvc
-@SpringBootTest
+@WebMvcTest(StoreRestController.class)
 class StoreRestControllerTest {
 
   @Autowired
@@ -41,13 +49,13 @@ class StoreRestControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  @Autowired
+  @MockBean
   private StoreService storeService;
 
-  @Autowired
+  @MockBean
   private UserService userService;
 
-  @Autowired
+  @MockBean
   UserRepository userRepository;
 
 
@@ -58,33 +66,60 @@ class StoreRestControllerTest {
   }
 
 
+  Long userId;
+  JoinRequest form;
+  StoreCreateRequest storeCreateRequest;
+  StoreCreateRequest storeCreateRequest2;
+
+  @BeforeEach
+  public void userSetUp(){
+    //given
+    userId = 1L;
+    form = new JoinRequest(
+        "test1@test.com",
+        "1234",
+        "user",
+        "nick",
+        "Seoul",
+        "STORE_OWNER");
+
+    storeCreateRequest =
+        new StoreCreateRequest(
+            "momstouch",
+            "01011112222",
+            "i am momstouch.",
+            "Seoul",
+            userId);
+
+    storeCreateRequest2 =
+        new StoreCreateRequest(
+            "momstouch2",
+            "01011113333",
+            "i am momstouch2.",
+            "Seoul",
+            userId);
+
+    given(userService.join(ArgumentMatchers.any(JoinRequest.class))).willReturn(1L);
+    userService.join(form);
+  }
+
+
 
   @Test
   @DisplayName("음식점을 생성할 수 있다.")
   public void saveStoreTest() throws Exception {
-    Long userId = userService.join(
-        new JoinRequest(
-            "test1@test.com",
-            "1234",
-            "user",
-            "nick",
-            "Seoul",
-            "STORE_OWNER"));
+    //given //when
+    given(storeService.save(ArgumentMatchers.any(StoreCreateRequest.class))).willReturn(1L);
 
-    StoreCreateRequest storeCreateRequest =
-        new StoreCreateRequest(
-          "momstouch",
-          "01011112222",
-          "i am momstouch.",
-          "Seoul",
-          userId);
-
+    //then
     mockMvc.perform(post("/api/v1/stores")
           .contentType(MediaType.APPLICATION_JSON)
           .content(objectMapper.writeValueAsString(storeCreateRequest)))
         .andExpect(status().isOk())
         .andDo(print())
         .andDo(document("store-save",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             requestFields(
                 fieldWithPath("name").type(JsonFieldType.STRING).description("name"),
                 fieldWithPath("telephone").type(JsonFieldType.STRING).description("telephone"),
@@ -101,40 +136,42 @@ class StoreRestControllerTest {
   }
 
   @Test
-  @DisplayName("음식점을 생성할 수 있다.")
+  @DisplayName("모든 음식점을 찾을 수 있다.")
   public void getAllStoreTest() throws Exception {
-    Long userId = userService.join(
-        new JoinRequest(
-            "test1@test.com",
-            "1234",
-            "user",
-            "nick",
-            "Seoul",
-            "STORE_OWNER"));
+    //given
+    given(storeService.save(ArgumentMatchers.any(StoreCreateRequest.class))).willReturn(1L);
+    Long storeId1 = storeService.save(storeCreateRequest);
+    given(storeService.save(ArgumentMatchers.any(StoreCreateRequest.class))).willReturn(2L);
+    Long storeId2 = storeService.save(storeCreateRequest2);
 
-    StoreCreateRequest storeCreateRequest =
-        new StoreCreateRequest(
-            "momstouch",
-            "01011112222",
-            "i am momstouch.",
-            "Seoul",
-            userId);
-    StoreCreateRequest storeCreateRequest2 =
-        new StoreCreateRequest(
-            "momstouch2",
-            "01011113333",
-            "i am momstouch2.",
-            "Seoul",
-            userId);
+    List<StoreFindResponse> list = List.of(
+        new StoreFindResponse(
+            storeId1,
+            storeCreateRequest.getName(),
+            storeCreateRequest.getTelephone(),
+            storeCreateRequest.getDescription(),
+            storeCreateRequest.getLocation()
+        ),
+        new StoreFindResponse(
+            storeId2,
+            storeCreateRequest2.getName(),
+            storeCreateRequest2.getTelephone(),
+            storeCreateRequest2.getDescription(),
+            storeCreateRequest2.getLocation()
+        ));
 
-    storeService.save(storeCreateRequest);
-    storeService.save(storeCreateRequest2);
 
+    //when
+    given(storeService.findAll()).willReturn(list);
+
+    //then
     mockMvc.perform(get("/api/v1/stores")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(print())
         .andDo(document("store-find-all",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             responseFields(
                 fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
                 fieldWithPath("serverDateTime").type(JsonFieldType.STRING).description("응답시간"),
@@ -154,29 +191,29 @@ class StoreRestControllerTest {
   @Test
   @DisplayName("id로 가게 정보를 검색할 수 있다.")
   public void getOneStoreTest() throws Exception {
-    Long userId = userService.join(
-        new JoinRequest(
-            "test1@test.com",
-            "1234",
-            "user",
-            "nick",
-            "Seoul",
-            "STORE_OWNER"));
-
-    StoreCreateRequest storeCreateRequest =
-        new StoreCreateRequest(
-            "momstouch",
-            "01011112222",
-            "i am momstouch.",
-            "Seoul",
-            userId);
+    //given
+    given(storeService.save(ArgumentMatchers.any(StoreCreateRequest.class))).willReturn(1L);
     Long storeId = storeService.save(storeCreateRequest);
 
+    StoreFindResponse storeFindResponse = new StoreFindResponse(
+        storeId,
+        storeCreateRequest.getName(),
+        storeCreateRequest.getTelephone(),
+        storeCreateRequest.getDescription(),
+        storeCreateRequest.getLocation()
+    );
+
+    //when
+    given(storeService.findById(ArgumentMatchers.any(Long.class))).willReturn(storeFindResponse);
+
+    //then
     mockMvc.perform(get("/api/v1/stores/{id}",storeId)
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(print())
         .andDo(document("store-find-by-id",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             responseFields(
                 fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
                 fieldWithPath("serverDateTime").type(JsonFieldType.STRING).description("응답시간"),
