@@ -1,0 +1,40 @@
+:hardbreaks:
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== 음식점 조회
+
+=== /stores/
+
+.Request
+include::{snippets}/store-find-all/http-request.adoc[]
+include::{snippets}/store-find-all/response-fields.adoc[]
+
+.Response
+include::{snippets}/store-find-all/http-response.adoc[]
+include::{snippets}/store-find-all/response-fields.adoc[]
+
+== 음식점 id 조회
+
+=== /stores/{id}
+
+.Request
+include::{snippets}/store-find-by-id/http-request.adoc[]
+include::{snippets}/store-find-by-id/response-fields.adoc[]
+
+.Response
+include::{snippets}/store-find-by-id/http-response.adoc[]
+include::{snippets}/store-find-by-id/response-fields.adoc[]
+
+== 음식점 생성
+
+=== /stores/
+
+.Request
+include::{snippets}/store-save/http-request.adoc[]
+include::{snippets}/store-save/request-fields.adoc[]
+
+.Response
+include::{snippets}/store-save/http-response.adoc[]
+include::{snippets}/store-save/response-fields.adoc[]

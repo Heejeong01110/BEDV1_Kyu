@@ -36,7 +36,7 @@ public class StoreRestController {
   }
 
   @PostMapping("/stores")
-  public ApiResponse<Long> saveStore(@ModelAttribute StoreCreateRequest storeCreateRequest)
+  public ApiResponse<Long> saveStore(@RequestBody StoreCreateRequest storeCreateRequest)
       throws AuthenticationException {
     return ApiResponse.ok(storeService.save(storeCreateRequest));
   }
