@@ -41,7 +41,7 @@
                 <b><span th:text="${userInfo.getNickname()}" style="color: white"></span></b>님, 반갑습니다. &nbsp
                 <button th:onclick="'location.href=\'/user/logout\';'" type="button" class="btn btn-outline-light me-2">Logout</button>
                 <button sec:authorize="hasAuthority('CUSTOMER')" th:href="@{/user/myOrder}" type="button" class="btn btn-outline-light me-2">주문 목록</button>
-                <button sec:authorize="hasAuthority('SHOP_OWNER')" th:href="@{/user/myShop}" type="button" class="btn btn-outline-light me-2">상품 수정</button>
+                <button sec:authorize="hasAuthority('STORE_OWNER')" th:href="@{/user/myShop}" type="button" class="btn btn-outline-light me-2">가게 등록</button>
             </div>
         </div>
     </div>
