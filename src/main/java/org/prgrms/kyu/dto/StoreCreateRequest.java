@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.prgrms.kyu.entity.Store;
 import org.prgrms.kyu.entity.User;
 
-
+@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

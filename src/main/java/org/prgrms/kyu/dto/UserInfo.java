@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 public class UserInfo {
+    private Long id;
     private String email;
     private String name;
     private String nickname;
@@ -19,6 +20,7 @@ public class UserInfo {
     private LocalDateTime updatedAt;
 
     public UserInfo(User user) {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.name = user.getName();
         this.nickname = user.getNickname();

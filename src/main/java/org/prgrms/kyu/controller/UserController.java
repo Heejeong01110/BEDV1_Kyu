@@ -1,8 +1,13 @@
 package org.prgrms.kyu.controller;
 
+import javax.naming.AuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.prgrms.kyu.dto.JoinRequest;
+import org.prgrms.kyu.dto.UserInfo;
+import org.prgrms.kyu.entity.User;
+import org.prgrms.kyu.entity.UserType;
 import org.prgrms.kyu.service.SecurityService;
+import org.prgrms.kyu.service.StoreService;
 import org.prgrms.kyu.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +22,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
     private final UserService userService;
+    private final StoreService storeService;
     private final SecurityService securityService;
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        if (securityService.isAuthenticated()) model.addAttribute("userInfo",
+        if (securityService.isAuthenticated()){
+            model.addAttribute("userInfo",
                 userService.getUser(((UserDetails) authentication.getPrincipal()).getUsername()));
+            model.addAttribute("stores",
+                storeService.findAll());
+        }
         return "/index";
     }
 
@@ -44,6 +54,22 @@ public class UserController {
     public String login(Model model, String logout) {
         if (securityService.isAuthenticated()) return "redirect:/";
         if (logout != null) model.addAttribute("message", "안전하게 로그아웃되었습니다.");
+        return "/user/loginForm";
+    }
+
+    @GetMapping("/user/myStore")
+    public String myStore(Model model, Authentication authentication) {
+        if (!securityService.isAuthenticated()) return "redirect:/";
+        UserType userType = userService.getUserType(
+            ((UserDetails) authentication.getPrincipal()).getUsername());
+        if(userType.equals(UserType.STORE_OWNER)){
+            model.addAttribute("userInfo",
+                userService.getUser(((UserDetails) authentication.getPrincipal()).getUsername()));
+
+            return "/store/myStore";
+        }else if(userType.equals(UserType.CUSTOMER)){
+            return "/index";
+        }
         return "/user/loginForm";
     }
 
