@@ -5,10 +5,10 @@
 [뀨의 민족 사이트](http://3.35.14.84:8080/)
 
 ## :monocle_face: Team
-|강희정|김은서|권태형|
-|:---:|:---:|:---:|
-|Product Owner|Scrum Master|Developer|
-|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="60%" />|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="60%" />|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="60%" />|
+|강희정|김은서|권태형|멘토|
+|:---:|:---:|:---:|:---:|
+|Product Owner|Scrum Master|Developer|Jansolikkun|
+|<img src="https://user-images.githubusercontent.com/70589857/140476091-8bd10656-630d-4221-b6c0-fff3393be16e.png" width="350" height="250" />|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="350" height="250" />|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="350" height="250" />|<img src="https://user-images.githubusercontent.com/70589857/140477361-8b3a07d5-b53a-4a11-8474-def8b0b9714e.png" width="400" height="250" />
 
 
 ##  :hammer: 개발환경
@@ -24,6 +24,13 @@
 ```
 - Github Issue
 ```
+## **이슈 번호 자동화**
+
+> node 가 설치되어 있어야 합니다.
+> 
+```
+npm install
+```
 
 ## 📝 설계 문서
 
@@ -31,8 +38,8 @@
 - [Postman 문서 보러가기](https://documenter.getpostman.com/view/14790864/UVByJW6Q)
 - [RestDocs 문서 보러가기](http://3.35.14.84:8080/docs)
 
-### 2. DB
-![image](https://user-images.githubusercontent.com/48792627/139654283-2d36bad8-4bab-4d60-a082-191345ae9af2.png)
+### 2. ERD
+- [ERD 문서 보러가기](https://www.notion.so/backend-devcourse/ERD-5cfdde92e2704700a5c3111c5f886397)
 
 ### 3. 프로젝트 관리
 - [Notion 보러 가기](https://www.notion.so/backend-devcourse/437d09a9481a4d2b84c4d7b3022ac024)
