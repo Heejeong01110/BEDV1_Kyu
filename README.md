@@ -1,8 +1,15 @@
-# ✨뀨의 민족 
+# 뀨의 민족 
 뀨팀의 배달의 민족 클론 코딩
 
 
-[주문 하러 가기](http://3.35.14.84:8080/)
+[뀨의 민족 사이트](http://3.35.14.84:8080/)
+
+## :monocle_face: Team
+|강희정|김은서|권태형|
+|:---:|:---:|:---:|
+|Product Owner|Scrum Master|Developer|
+|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="60%" />|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="60%" />|<img src="https://user-images.githubusercontent.com/68772751/139533586-1edc542b-ab38-4b0e-ad30-8947aff3d70b.png" width="60%" />|
+
 
 ##  :hammer: 개발환경
 ```
