@@ -2,7 +2,7 @@
 뀨팀의 배달의 민족 클론 코딩
 
 
-[뀨의 민족 사이트](http://3.35.14.84:8080/)
+[뀨의 민족 사이트](http://3.36.87.191:8080/)
 
 ## :monocle_face: Team
 |강희정|김은서|권태형|멘토|
@@ -36,7 +36,7 @@ npm install
 
 ### 1. API
 - [Postman 문서 보러가기](https://documenter.getpostman.com/view/14790864/UVByJW6Q)
-- [RestDocs 문서 보러가기](http://3.35.14.84:8080/docs)
+- [RestDocs 문서 보러가기](http://3.36.87.191:8080/docs)
 
 ### 2. ERD
 - [ERD 문서 보러가기](https://www.notion.so/backend-devcourse/ERD-5cfdde92e2704700a5c3111c5f886397)
